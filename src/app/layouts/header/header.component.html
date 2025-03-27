@@ -1,0 +1,47 @@
+<div class="flex items-center justify-between p-3">
+  <div class="flex items-center gap-4">
+    <button class="p-2 hover:bg-blue-100 rounded-lg cursor-pointer">
+      <i class="iconify text-xl" data-icon="solar:grid-line-duotone"></i>
+    </button>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <div class="relative" #menuContainer>
+      <button class="flex items-center justify-center p-2 hover:bg-blue-100 rounded-lg cursor-pointer"
+        (click)="toggleMenu()">
+        <img src="https://materialm-angular-main.netlify.app/assets/images/profile/user-1.jpg"
+          class="rounded-full object-cover w-9 h-9" width="35" />
+      </button>
+
+      @if (isMenuOpen()) {
+      @defer {
+      <div class="absolute top-10 right-4 mt-2 w-84 bg-white border border-gray-50 rounded-lg shadow-lg z-10">
+        <div class="px-4 py-2 flex items-center">
+          <img src="https://materialm-angular-main.netlify.app/assets/images/profile/user-1.jpg" alt="User Image"
+            class="w-16 h-16 rounded-full mr-4">
+          <div>
+            <div class="font-semibold text-lg">Daniel Vera</div>
+            <div class="text-sm text-gray-500">desarrollandoideas&#64;gmail.com</div>
+          </div>
+        </div>
+
+        <div class="px-4 py-2 border-t border-gray-200 font-medium flex flex-col items-center">
+          <a href="https://www.linkedin.com/in/daniel-vera-leon-283410259/" target="_blank" class="w-full  hover:text-blue-600 py-1">
+            Linkendin
+          </a>
+          <a href="https://github.com/dannyvera1234" target="_blank" class="w-full  hover:text-blue-600 py-1">
+            Github
+          </a>
+          <a href="https://main--portafoliodanieldev.netlify.app/" target="_blank" class="w-full  hover:text-blue-600 py-1">
+            Portafolio
+          </a>
+          <a href="https://drive.google.com/file/d/1ylUGu3xLGsaWWxd7MENSAHjOby6ys9xg/view?usp=sharing" target="_blank" class="w-full  hover:text-blue-600 py-1">
+            Hoja de Vida
+          </a>
+        </div>
+      </div>
+      }
+      }
+    </div>
+  </div>
+</div>

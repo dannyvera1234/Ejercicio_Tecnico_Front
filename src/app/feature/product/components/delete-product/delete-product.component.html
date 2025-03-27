@@ -1,0 +1,29 @@
+<div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+  <p class="text-gray-800 text-lg font-normal mb-6">
+    ¿Estás seguro de eliminar el producto <span class="font-semibold">
+      {{titleProduct}}?
+    </span>
+  </p>
+
+  <hr class="my-4 border-gray-200" />
+
+  @if (!productStore.loading()) {
+    <div class="flex justify-center space-x-4 font-medium">
+      <button class="px-8 py-2 text-blue-950 bg-slate-200 rounded border border-gray-300 cursor-pointer"
+      (click)="productStore.closeModal('deleteProduct')">
+      Cancelar
+    </button>
+    <button class="px-8 py-2 bg-yellow-200 text-gray-400 rounded cursor-pointer"
+    (click)="productStore.deleteEmpleado()"
+    >
+    Confirmar
+  </button>
+</div>
+} @else {
+  <div class="flex justify-center items-center">
+    <div
+      class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-t-transparent">
+    </div>
+  </div>
+}
+</div>

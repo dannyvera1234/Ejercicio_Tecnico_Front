@@ -1,0 +1,144 @@
+<div class="flex justify-between mb-4">
+  <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Search..."
+    class="p-2 border border-gray-300 rounded w-1/3 bg-white" />
+
+  <button class="bg-amber-300 text-black px-4 py-2 rounded cursor-pointer"
+    (click)="productStore.openModal('addModal')">Agregar</button>
+</div>
+<section class="bg-white py-3">
+  <div class="table-container relative p-2 ">
+    <table class="w-full text-left">
+      <thead class="bg-gray-50 border-b border-gray-200">
+        <tr class="*:font-medium *:text-black *:px-5 *:py-3">
+          <th scope="col">Logo</th>
+          <th scope="col">Nombre del producto</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Fecha de liberación</th>
+          <th scope="col">Fecha de restructuración</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      @if (productStore.loading()) {
+      <tbody>
+        <tr>
+          <td colspan="6" class="py-5">
+            <div class="flex justify-center items-center h-40">
+              <div
+                class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-t-transparent">
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      } @else {
+      @if (productStore.Listproducts() && productStore.Listproducts()!.data!.length > 0) {
+      <tbody>
+        @for (product of productStore.Listproducts()?.data; track $index) {
+        <tr class="bg-white border-b  text-center border-neutral-200 *:px-6 *:py-4 *:whitespace-nowrap [&>th]:ps-0">
+          <td class="py-2">
+            <div class="w-10 h-10 bg-gray-300 text-white rounded-full flex items-center justify-center">
+              {{product.logo | initials}}
+            </div>
+          </td>
+          <td>
+            {{ product.name }}
+          </td>
+          <td>
+            {{ product.description }}
+          </td>
+          <td>
+            {{ product.date_release | date:'dd/MM/yyyy' }}
+          </td>
+          <td>
+            {{ product.date_revision | date:'dd/MM/yyyy'}}
+          </td>
+          <td>
+            <div class="relative">
+              <button class="size-8 relative ml-auto block cursor-pointer" (click)="toggleMenu($index)">
+                &#8942;
+              </button>
+              @if (isMenuOpen() === $index) {
+              <div class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                <ul class="list-none p-2">
+                  <li class="py-2 px-4 hover:bg-gray-100 cursor-pointer" [routerLink]="product.id"
+                    [state]="{ product: product }">
+                    <a>Editar</a>
+                  </li>
+                  <li class="py-2 px-4 hover:bg-gray-100 ">
+                    <button class="cursor-pointer" (click)="actionDelete(product.id, product.name)">
+                      Eliminar
+                    </button>
+
+                  </li>
+                </ul>
+              </div>
+              }
+            </div>
+          </td>
+
+        </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5" class=" text-gray-500 py-2">
+            {{ productStore.Listproducts()?.data.length }} Resultados
+          </td>
+          <td colspan="1">
+            <select class="px-2 py-1 border rounded-md">
+              <option> {{ productStore.Listproducts()?.data.length }}
+              </option>
+            </select>
+          </td>
+        </tr>
+
+      </tfoot>
+      } @else {
+      <tbody>
+        <tr>
+          <td colspan="100%" class="text-center">
+            <div>
+              No hay productos registrados
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      }
+      }
+    </table>
+
+  </div>
+</section>
+
+
+
+
+@if (productStore.isModalOpen('addModal')) {
+@defer {
+<div class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+  <div class="absolute inset-0 bg-black opacity-50"></div>
+  <div class="bg-white rounded-md shadow-lg w-full max-w-4xl z-10 relative p-5">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold">Formulario de Registro</h2>
+      <button (click)="productStore.closeModal('addModal')"
+        class="text-gray-500 hover:text-gray-800 focus:outline-none cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <hr class="my-4" />
+    <app-add-product />
+  </div>
+</div>
+}
+}
+@if (productStore.isModalOpen('deleteProduct')) {
+@defer {
+<div class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+  @if(title(); as title) {
+  <app-delete-product [titleProduct]="title" />
+  }
+</div>
+}
+}
