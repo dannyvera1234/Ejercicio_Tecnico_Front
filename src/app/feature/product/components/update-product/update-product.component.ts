@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CustomInputComponent } from '../../../../components';
 import { PRODUCT_INITIAL_STATE } from '../../../../store';
@@ -10,22 +10,30 @@ import { FormServiceService } from '../formService.service';
   imports: [ReactiveFormsModule, CustomInputComponent, RouterLink],
   templateUrl: './update-product.component.html',
 })
-export class UpdateProductComponent {
-  @Input({required: true}) id!: string
+export class UpdateProductComponent implements OnInit, OnDestroy {
+  @Input({ required: true }) id!: string
   public productStore = inject(PRODUCT_INITIAL_STATE);
   public formService = inject(FormServiceService);
-  constructor() {
+
+  ngOnInit(): void {
     const product = history.state.product;
-    if (!product) return;
+    if (!product) return
     this.formService.addProductForm.patchValue(product);
     this.formService.addProductForm.get('id')?.disable();
   }
 
-    resetForm(): void {
-      const currentId =  this.formService.addProductForm.get('id')?.value;
-      this.formService.addProductForm.reset();
-      this.formService.addProductForm.get('id')?.setValue(currentId);
-    }
+
+  ngOnDestroy(): void {
+    // Limpiar o resetear el formulario cuando se destruye el componente
+    this.formService.addProductForm.reset();
+    this.formService.addProductForm.get('id')?.enable();
+  }
+
+  resetForm(): void {
+    const currentId = this.formService.addProductForm.get('id')?.value;
+    this.formService.addProductForm.reset();
+    this.formService.addProductForm.get('id')?.setValue(currentId);
+  }
 
 }
 
