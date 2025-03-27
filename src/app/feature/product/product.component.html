@@ -33,7 +33,7 @@
       } @else {
       @if (productStore.Listproducts() && productStore.Listproducts()!.data!.length > 0) {
       <tbody>
-        @for (product of productStore.Listproducts()?.data; track $index) {
+        @for (product of productStore.Listproducts()!.data; track $index) {
         <tr class="bg-white border-b  text-center border-neutral-200 *:px-6 *:py-4 *:whitespace-nowrap [&>th]:ps-0">
           <td class="py-2">
             <div class="w-10 h-10 bg-gray-300 text-white rounded-full flex items-center justify-center">
@@ -82,11 +82,11 @@
       <tfoot>
         <tr>
           <td colspan="5" class=" text-gray-500 py-2">
-            {{ productStore.Listproducts()?.data.length }} Resultados
+            {{ productStore.Listproducts()!.data.length }} Resultados
           </td>
           <td colspan="1">
             <select class="px-2 py-1 border rounded-md">
-              <option> {{ productStore.Listproducts()?.data.length }}
+              <option> {{ productStore.Listproducts()!.data.length }}
               </option>
             </select>
           </td>

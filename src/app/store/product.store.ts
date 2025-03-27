@@ -3,7 +3,7 @@ import { finalize, mergeMap, of } from "rxjs";
 import { ProductService } from "../services";
 import { inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { Product } from "../interface";
+import { GeneriResp, Product } from "../interface";
 
 export interface ModalState {
   isOpen: boolean;
@@ -11,7 +11,7 @@ export interface ModalState {
 }
 
 export interface ProductState {
-  Listproducts: any;
+  Listproducts: GeneriResp<Product[]>;
   loading: boolean;
   idProduct: string | null;
   modals: Record<string, ModalState>;
@@ -21,7 +21,7 @@ export interface ProductState {
 
 
 const initialState: ProductState = {
-  Listproducts: [],
+  Listproducts: { data: [] as Product[] },
   loading: false,
   idProduct: null,
   searchTerm: null,
@@ -70,12 +70,12 @@ export const PRODUCT_INITIAL_STATE = signalStore(
         return store.modals()[modalName]?.isOpen || false;
       },
 
-      allProducts() {
 
+      allProducts() {
         of(patchState(store, { loading: true })).pipe(
           mergeMap(() => productService.getProducts()),
           finalize(() => patchState(store, { loading: false }))
-        ).subscribe((data) => {
+        ).subscribe((data: any) => {
           patchState(store, { Listproducts: data });
         })
       },
