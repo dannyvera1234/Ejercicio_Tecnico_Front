@@ -87,7 +87,7 @@ export const PRODUCT_INITIAL_STATE = signalStore(
         ).subscribe((resp: any) => {
           patchState(store, { modals: { ...store.modals(), addModal: { isOpen: false } } });
           patchState(store, { Listproducts: { data: [...store.Listproducts().data, resp.data] }, });
-          product.reset();
+          // product.reset();
         });
       },
 
@@ -120,7 +120,7 @@ export const PRODUCT_INITIAL_STATE = signalStore(
           )
           .subscribe((resp) => {
             router.navigate(['/product']);
-            product.reset();
+            // product.reset();
           });
       },
 
