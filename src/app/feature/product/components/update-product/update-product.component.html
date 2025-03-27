@@ -33,7 +33,7 @@
         Reiniciar
       </button>
       <button [disabled]="!formService.addProductForm.dirty || formService.addProductForm.invalid"
-        (click)="productStore.updateProduct(id,formService.addProductForm.value)"
+        (click)="productStore.updateProduct(id,formService.addProductForm)"
         class="bg-yellow-400 text-white px-6 py-2 rounded-md w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed">
         Enviar
       </button>

@@ -3,6 +3,7 @@ import { finalize, mergeMap, of } from "rxjs";
 import { ProductService } from "../services";
 import { inject } from "@angular/core";
 import { Router } from "@angular/router";
+import { Product } from "../interface";
 
 export interface ModalState {
   isOpen: boolean;
@@ -112,13 +113,14 @@ export const PRODUCT_INITIAL_STATE = signalStore(
       updateProduct(id: string, product: any) {
         of(patchState(store, { loading: true }))
           .pipe(
-            mergeMap(() => productService.updateProduct(id, product)),
+            mergeMap(() => productService.updateProduct(id, product.value)),
             finalize(() => {
               patchState(store, { loading: false });
             })
           )
           .subscribe((resp) => {
             router.navigate(['/product']);
+            product.reset();
           });
       },
 
